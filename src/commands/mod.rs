@@ -575,12 +575,17 @@ struct MoveArgs {
 ///
 /// After moving the changes into the parent, the child revision will have the
 /// same content state as before. If that means that the change is now empty
-/// compared to its parent, it will be abandoned.
+/// compared to its parent, it will be abandoned (except when squashing @, see below)
 /// Without `--interactive`, the child change will always be empty.
 ///
 /// If the source became empty and both the source and destination had a
 /// non-empty description, you will be asked for the combined description. If
 /// either was empty, then the other one will be used.
+/// 
+/// Note that squashing the working-copy commit will never result in abandoning
+/// of empty commit. If all the changes from working-copy commit got squashed to the parent,
+/// working-copy commit will be an empty commit. To remove empty commit from the top
+/// of history, use jj unsquash.
 #[derive(clap::Args, Clone, Debug)]
 #[command(visible_alias = "amend")]
 struct SquashArgs {
